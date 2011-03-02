@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                android:padding="10px" >
+    <Button android:id="@+id/wifi_button" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10px"
+            android:text="Go Via WiFi" 
+            android:textStyle="bold"
+            android:textSize="22dp"/>
+
+    <Button android:id="@+id/g3_button" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10px"
+            android:layout_alignTop="@id/wifi_button"
+            android:text="Go Via 3G  " 
+            android:textStyle="bold"
+            android:textSize="22dp"/>
+             
+    <ImageView android:id="@+id/wifiImage"
+            android:src="@drawable/wifi_start" 
+ 		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginLeft="10px"
+			android:layout_below="@id/wifi_button"
+			android:layout_marginTop="30px" 
+			android:clickable="true"/>
+			
+	 <ImageView android:id="@+id/g3Image"
+            android:src="@drawable/g3_stop" 
+ 		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+			android:layout_toLeftOf="@id/wifiImage"
+			android:layout_alignTop="@id/wifiImage"
+			android:layout_alignRight="@id/g3_button" 
+			android:clickable="true"/>
+
+	<TextView
+			android:id="@+id/g3TrafficUpLabel"
+			android:textColor="@color/white"
+			android:layout_width="70dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_marginRight="10px"
+			android:layout_below="@id/g3Image"
+			android:text="UP:"
+			android:textSize="20sp"
+			android:textStyle="bold" 
+			android:layout_marginTop="30px"
+			/>
+	<TextView
+			android:id="@+id/g3TrafficUpRate"
+			android:padding="0dp"
+			android:textColor="@color/white"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:layout_toRightOf="@id/g3TrafficUpLabel"
+			android:layout_alignTop="@id/g3TrafficUpLabel"
+			android:text="0.0Kbps"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+	<TextView
+			android:id="@+id/g3TrafficDownLabel"
+			android:textColor="@color/white"
+			android:layout_width="70dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_marginRight="10px"
+			android:layout_below="@id/g3TrafficUpLabel"
+			android:text="Down:"
+			android:textSize="20sp"
+			android:textStyle="bold" 
+			android:layout_marginTop="20px"
+			/>
+	<TextView
+			android:id="@+id/g3TrafficDownRate"
+			android:padding="0dp"
+			android:textColor="@color/white"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:layout_toRightOf="@id/g3TrafficDownLabel"
+			android:layout_alignTop="@id/g3TrafficDownLabel"
+			android:layout_marginRight="10px"
+			android:text="0.0Kbps"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+	<TextView
+			android:id="@+id/wifiTrafficUpRate"
+			android:padding="0dp"
+			android:textColor="@color/white"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginLeft="5px"
+			android:layout_alignTop="@id/g3TrafficUpRate"
+			android:text="0.0Kbps"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+	<TextView
+			android:id="@+id/wifiTrafficDownRate"
+			android:padding="0dp"
+			android:textColor="@color/white"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginLeft="5px"
+			android:layout_alignTop="@id/g3TrafficDownRate"
+			android:text="0.0Kbps"
+			android:textSize="20sp"
+			android:textStyle="bold" />						
+
+	 
+</RelativeLayout>
