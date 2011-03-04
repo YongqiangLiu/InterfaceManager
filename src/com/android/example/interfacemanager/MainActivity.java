@@ -113,8 +113,8 @@ public class MainActivity extends Activity {
         g3TrafficUpRate = (TextView) findViewById(R.id.g3TrafficUpRate);
         g3TrafficDownRate = (TextView) findViewById(R.id.g3TrafficDownRate);
         
-        wifiButton = (Button) findViewById(R.id.wifi_button);
-        g3Button = (Button) findViewById(R.id.g3_button);
+        wifiButton = (Button) findViewById(R.id.wifiButton);
+        g3Button = (Button) findViewById(R.id.g3Button);
         wifiButton.setOnClickListener(buttonListener);
         g3Button.setOnClickListener(buttonListener);
         
@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
     }
     
     private void changeToNetwork(int buttonID) {
-		int toNetwork = (buttonID == R.id.wifi_button) ? Utility.WIFI_NETWORK : Utility.G3_NETWORK; 
+		int toNetwork = (buttonID == R.id.wifiButton) ? Utility.WIFI_NETWORK : Utility.G3_NETWORK; 
 		this.application.changeDefaultGW(toNetwork);
 		//updateImage();
     }

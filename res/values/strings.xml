@@ -2,4 +2,20 @@
 <resources>
     <string name="hello">Hello World, InterfaceManager!</string>
     <string name="app_name">Interface Manager</string>
+    <string name="wifi_button">Go Via WiFi</string>
+    <string name="g3_button">Go Via 3G</string>
+    <string name="button_text_style">bold</string>
+    <string name="button_text_size">22sp</string>
+    <string name="label_width">90dp</string>
+    <string name="label_uprate">UP:</string>
+    <string name="label_downrate">DOWN:</string>
+    <string name="label_tcp">TCP:</string>
+    <string name="label_udp">UDP:</string>
+    <string name="label_other">OTHER:</string>
+    <string name="figure_width">110dp</string>
+    <string name="figure_default">100Kbps</string>
+    <string name="flow_default">0Flows</string>
+    <string name="bytes_default">0Bytes</string>
+    <string name="on_text">Traffic Monitoring on</string>
+    <string name="off_text">Traffic Monitoring off</string>
 </resources>
