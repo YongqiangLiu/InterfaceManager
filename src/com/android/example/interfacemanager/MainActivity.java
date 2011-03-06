@@ -1,14 +1,7 @@
 package com.android.example.interfacemanager;
 
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +11,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
@@ -33,6 +28,7 @@ public class MainActivity extends Activity {
 	private int policy = Utility.POLICLY_FOLLOW_SYSTEM;
 	private Object stateLock = new Object();
 	
+	private TableLayout trafficTable = null;
 	private RouteApplication application = null;
 	private ImageView wifiImage = null;
 	private ImageView g3Image = null;
@@ -42,8 +38,11 @@ public class MainActivity extends Activity {
 	private TextView g3TrafficUpRate = null;
 	private TextView wifiTrafficDownRate = null;
 	private TextView g3TrafficDownRate = null;
+	private ToggleButton trafficButton = null;
 	
-	private Toast board = null;  
+	private Toast board = null;
+	
+	private InterfaceTracker IFTracker = null; 
 	
 
 	public int getInterfaceState(int type) {
@@ -87,7 +86,15 @@ public class MainActivity extends Activity {
 			ImageView image = (ImageView) v;
 			//Toast.makeText(MainActivity.this, "image"image.getId(), Toast.LENGTH_SHORT).show();
 			changeInterfaceState(image.getId());
-            
+		}
+	};
+	
+	private OnClickListener toggleListener = new View.OnClickListener() {
+		public void onClick(View v) {
+			ToggleButton toggleButton = (ToggleButton) v;
+			if (toggleButton.isChecked()) {
+				if (!trafficTable.isShown()) trafficTable.setVisibility(View.VISIBLE);
+			}
 		}
 	};
 	
@@ -101,8 +108,11 @@ public class MainActivity extends Activity {
     	setCurrentInstance(this);
     	msgHandler = new UIRefreshHandler(this);
     	this.application.getActivityReady();
+    	IFTracker = new InterfaceTracker(this, msgHandler);
     	
         setContentView(R.layout.main);
+        
+        trafficTable = (TableLayout) findViewById(R.id.trafficTable);
         wifiImage = (ImageView) findViewById(R.id.wifiImage);
         g3Image = (ImageView) findViewById(R.id.g3Image);
         wifiImage.setOnClickListener(imageViewListener);
@@ -118,7 +128,11 @@ public class MainActivity extends Activity {
         wifiButton.setOnClickListener(buttonListener);
         g3Button.setOnClickListener(buttonListener);
         
+        trafficButton = (ToggleButton) findViewById(R.id.trafficMonitorButton);
+        trafficButton.setOnClickListener(toggleListener);
+        
         board = Toast.makeText(this, "start up", Toast.LENGTH_SHORT);
+        trafficTable.setVisibility(View.INVISIBLE);
         
     	setInterfaceSate(Utility.WIFI_NETWORK, 
     			Utility.getInfacePhysicalState(Utility.WIFI_NETWORK));
@@ -131,99 +145,20 @@ public class MainActivity extends Activity {
     private void changeToNetwork(int buttonID) {
 		int toNetwork = (buttonID == R.id.wifiButton) ? Utility.WIFI_NETWORK : Utility.G3_NETWORK; 
 		this.application.changeDefaultGW(toNetwork);
-		//updateImage();
-    }
-    
-    private void enableInterface(int intface, boolean enable) {
-    	if (intface == Utility.WIFI_NETWORK) {
-    		WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-    		if (wifiManager.isWifiEnabled() != enable) {
-    			wifiManager.setWifiEnabled(enable);
-    			if (enable == true ) {
-    				new ShowInProcess().execute("Bringing UP WiFi", "5");
-    			}
-    			else {
-    				new ShowInProcess().execute("Shutting Down WiFi", "1");
-    			}
-    		}	
-    	} else {
-    		if (getMobileDataEnabled() != enable) {
-    			setMobileDataEnabled(enable);
-    		}
-    		//Log.d(TAG, "3g is enabled? :" + getMobileDataEnabled());
-    	}
-    }
-    
-    private Method getMethodFromClass(Object obj, String methodName) {
-    	final String TAG = "getMethodFromClass";
-        Class<?> whichClass = null;
-        try {
-            whichClass = Class.forName(obj.getClass().getName());
-        } catch (ClassNotFoundException e2) {
-            // TODO Auto-generated catch block
-            Log.d(TAG, "class not found");
-        }
-        
-        Method method = null;
-        try {
-            //method = whichClass.getDeclaredMethod(methodName);
-            Method[] methods = whichClass.getDeclaredMethods();
-        	for (Method m : methods) {
-        		//Log.d(TAG, "method: " + m.getName());
-        		if (m.getName().contains(methodName)) {
-        			method = m;
-        		}
-        	}
-        } catch (SecurityException e2) {
-            // TODO Auto-generated catch block
-        	Log.d(TAG, "SecurityException for " + methodName);
-        } 
-        return method;
-    }
-    
-    private Object runMethodofClass(Object obj, Method method, Object... argv) {
-    	Object result = null;
-    	if (method == null) return result;
-    	method.setAccessible(true);
-        try {
-			result = method.invoke(obj, argv);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			Log.d(TAG, "IllegalArgumentException for " + method.getName());
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			Log.d(TAG, "IllegalAccessException for " + method.getName());
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			Log.d(TAG, "InvocationTargetException for " + method.getName() 
-					+ "; Reason: " + e.getLocalizedMessage());
-		}
-		return result;
-    }
-    
-    private boolean getMobileDataEnabled() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        Method m = getMethodFromClass(cm, "getMobileDataEnabled");
-        Object enabled = runMethodofClass(cm, m);
-		return (Boolean) enabled;
-    }
-    
-    private void setMobileDataEnabled(boolean enable) {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        Method m = getMethodFromClass(cm, "setMobileDataEnabled");
-        runMethodofClass(cm, m, enable);
     }
     
     private void changeInterfaceState(int imageViewID) {
     	int intface = (imageViewID == R.id.wifiImage) ? Utility.WIFI_NETWORK:Utility.G3_NETWORK;
+    	String device = (intface == Utility.WIFI_NETWORK)? "WiFi" : "3G";
     	if (getInterfaceState(intface) != Utility.INTERFACE_DISABLE) {
     		setInterfaceSate(intface, Utility.INTERFACE_DISABLE);
-    		enableInterface(intface, false);
+    		IFTracker.enableInterface(intface, false);
+    		new ShowInProcess().execute("Shutting Down " + device, "1");
     	} else {
     		setInterfaceSate(intface, Utility.INTERFACE_ACTIVE);
-    		enableInterface(intface, true);
+    		IFTracker.enableInterface(intface, true);
+    		new ShowInProcess().execute("Bringing UP " + device, "5");
     	}
-    	//updateImage();
     }
     
     private int getIconByState(int intface, int state) {
@@ -252,6 +187,7 @@ public class MainActivity extends Activity {
     	msgHandler.sendMessage(msg);
     }
     
+    
     public class UIRefreshHandler extends Handler {
     	
     	static final String TAG = "UIRefreshHandler";
@@ -269,8 +205,7 @@ public class MainActivity extends Activity {
     		case Utility.MESSAGE_TRAFFIC_INFO:
     			final String noTraffic = "- - - -";
     			int ntType = msg.arg1;
-    			RouteApplication.TrafficMonitor.TrafficStatis data = 
-		               (RouteApplication.TrafficMonitor.TrafficStatis) msg.obj;
+    			TrafficMonitor.TrafficStatis data = (TrafficMonitor.TrafficStatis) msg.obj;
     			int state = Utility.getInfacePhysicalState(ntType);
     			int color = (state == Utility.INTERFACE_ACTIVE)? Color.WHITE : Color.GRAY;
     			TextView upRateView = (ntType == Utility.WIFI_NETWORK) ? 
@@ -297,6 +232,7 @@ public class MainActivity extends Activity {
     		}
     	}
     }
+    
     
     private class ShowInProcess extends AsyncTask<String, String, Integer> {
     	protected Integer doInBackground(String... params) {

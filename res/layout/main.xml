@@ -4,7 +4,7 @@
 			  android:layout_width="fill_parent" 
 			  android:layout_height="fill_parent"
 			  android:orientation="vertical">
-	<TableLayout android:id="@+id/table1" 
+	<TableLayout android:id="@+id/configTable" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content" 
 		android:gravity="center_horizontal">
@@ -36,22 +36,21 @@
 		            android:src="@drawable/wifi_start" 
 		 		    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-					android:clickable="true" 
-					android:layout_gravity="center|right"/>
+					android:clickable="true" android:layout_gravity="center"/>
 			 <ImageView android:id="@+id/g3Image"
 		            android:src="@drawable/g3_stop" 
 		 		    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-					android:clickable="true" android:layout_gravity="center|right"/>
+					android:clickable="true" android:layout_gravity="center"/>
 		</TableRow>
 	</TableLayout>
 	
 	
-	<TableLayout android:id="@+id/table2" 
+	<TableLayout android:id="@+id/trafficTable" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content" 
 		android:gravity="center_horizontal"
-		android:layout_marginTop="50px">
+		android:layout_marginTop="30px">
 		<TableRow android:id="@+id/upRateRow" 
 				  android:layout_width="fill_parent" 
 				  android:layout_height="wrap_content">
@@ -70,16 +69,14 @@
 			android:layout_width="110dp"
 			android:text="@string/figure_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"/>
+			android:textSize="20dp"/>
 			<TextView
 			android:id="@+id/g3TrafficUpRate"
 			android:layout_height="wrap_content"
 			android:layout_width="110dp"
 			android:text="@string/figure_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"
+			android:textSize="20dp"			
 			android:layout_gravity="center|right"/>	 	  
 		</TableRow>
 		
@@ -101,16 +98,14 @@
 			android:layout_width="110dp"
 			android:text="@string/figure_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"/>
+			android:textSize="20dp"/>
 			<TextView
 			android:id="@+id/g3TrafficDownRate"
 			android:layout_height="wrap_content"
 			android:layout_width="110dp"
 			android:text="@string/figure_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"
+			android:textSize="20dp"
 			android:layout_gravity="center|right"/>	 	  
 		</TableRow>
 		
@@ -133,22 +128,21 @@
 			android:layout_width="110dp"
 			android:text="@string/flow_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"/>
+			android:textSize="20dp"/>
 			<TextView
 			android:id="@+id/TCPBytes"
 			android:layout_height="wrap_content"
 			android:layout_width="110dp"
 			android:text="@string/bytes_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"
+			android:textSize="20dp"
 			android:layout_gravity="center|right"/>	 	  
 		</TableRow>
 		
 		<TableRow android:id="@+id/UDPStatisRow" 
 				  android:layout_width="fill_parent" 
-				  android:layout_height="wrap_content">
+				  android:layout_height="wrap_content"
+				  android:layout_marginTop="5px">
 			<TextView
 			android:id="@+id/UDPLabel"
 			android:layout_width="90dp"
@@ -164,22 +158,21 @@
 			android:layout_width="110dp"
 			android:text="@string/flow_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"/>
+			android:textSize="20dp"/>
 			<TextView
 			android:id="@+id/UDPBytes"
 			android:layout_height="wrap_content"
 			android:layout_width="110dp"
 			android:text="@string/bytes_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"
+			android:textSize="20dp"
 			android:layout_gravity="center|right"/>	 	  
 		</TableRow>
 		
 		<TableRow android:id="@+id/OtherStatisRow" 
 				  android:layout_width="fill_parent" 
-				  android:layout_height="wrap_content">
+				  android:layout_height="wrap_content"
+				  android:layout_marginTop="5px">
 			<TextView
 			android:id="@+id/OtherLabel"
 			android:layout_width="90dp"
@@ -195,16 +188,44 @@
 			android:layout_width="110dp"
 			android:text="@string/flow_default"
 			android:textColor="@color/white"
-			android:textSize="22dp"
-			android:textStyle="bold"/>
+			android:textSize="20dp"/>
 			<TextView
 			android:id="@+id/OtherBytes"
 			android:layout_height="wrap_content"
 			android:layout_width="110dp"
 			android:text="@string/bytes_default"
 			android:textColor="@color/white"
+			android:textSize="20dp"
+			android:layout_gravity="center|right"/>	 	  
+		</TableRow>
+		
+		<TableRow android:id="@+id/TotalStatisRow" 
+				  android:layout_width="fill_parent" 
+				  android:layout_height="wrap_content"
+				  android:layout_marginTop="5px">
+			<TextView
+			android:id="@+id/TotalLabel"
+			android:layout_width="90dp"
+			android:layout_height="wrap_content"
+			android:text="@string/label_total"
+			android:textColor="@color/white"
 			android:textSize="22dp"
-			android:textStyle="bold"
+			android:textStyle="bold" 
+			/>
+			<TextView
+			android:id="@+id/TotalFlows"
+			android:layout_height="wrap_content"
+			android:layout_width="110dp"
+			android:text="@string/flow_default"
+			android:textColor="@color/white"
+			android:textSize="20dp"/>
+			<TextView
+			android:id="@+id/TotalBytes"
+			android:layout_height="wrap_content"
+			android:layout_width="110dp"
+			android:text="@string/bytes_default"
+			android:textColor="@color/white"
+			android:textSize="20dp"
 			android:layout_gravity="center|right"/>	 	  
 		</TableRow>
 	</TableLayout>	
@@ -213,6 +234,6 @@
         		  android:layout_height="wrap_content"
         		  android:textOn="@string/on_text"
         		  android:textOff="@string/off_text"
-        		  android:layout_marginTop="80px"
+        		  android:layout_marginTop="70px"
         		  android:layout_alignParentBottom="true"/>
 </LinearLayout>

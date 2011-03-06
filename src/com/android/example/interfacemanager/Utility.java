@@ -25,6 +25,9 @@ public class Utility {
 	
 	public static final int POLICLY_FOLLOW_SYSTEM = 0;
 	public static final int POLICLY_FOLLOW_ME = 1;
+
+	public static final int ClASS_INTERFACE_MONITOR = 0;
+	public static final int ClASS_TRAFFIC_MONITOR = 1;
 	
 	public static final String wifiName = "eth0";
 	public static final String g3Name = "rmnet0";
@@ -89,5 +92,4 @@ public class Utility {
 		}
 		return state;
 	}
-	
 }
